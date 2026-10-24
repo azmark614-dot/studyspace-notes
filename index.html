@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="ku" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#111d36">
+<meta name="description" content="StudySpace — your personal school notebook">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="stylesheet" href="style.css">
+<title>StudySpace</title>
+</head>
+<body>
+<header class="topbar">
+  <div class="brand-row" dir="ltr">
+    <div class="logo">S</div><div class="brand">StudySpace</div>
+    <button id="themeBtn" class="icon-btn" aria-label="Change theme" title="Dark / light mode">☼</button>
+  </div>
+  <div class="header-tools">
+    <select id="languageSelect" aria-label="Language">
+      <option value="ku">کوردی</option><option value="ar">العربية</option><option value="en">English</option>
+    </select>
+    <button id="exportBtn" class="icon-btn" title="Export backup" aria-label="Export backup">⬇</button>
+    <button id="importBtn" class="icon-btn" title="Restore backup" aria-label="Restore backup">⬆</button>
+    <input type="file" id="importFile" accept="application/json,.json" hidden>
+  </div>
+</header>
+<main>
+  <section class="subjects-section">
+    <div class="section-heading"><h2 id="subjectsTitle">بابەتەکان</h2><button id="addSubjectBtn" class="add-btn" aria-label="Add subject">＋</button></div>
+    <div id="subjectsGrid" class="subjects-grid"></div>
+  </section>
+  <section class="notes-section">
+    <div class="notes-head">
+      <div><div class="muted" id="notesEyebrow">دەفتەری خوێندن</div><h1 id="selectedSubjectTitle">کوردی</h1></div>
+      <button id="newNoteBtn" class="primary-btn">＋ <span id="newNoteLabel">تێبینی نوێ</span></button>
+    </div>
+    <div id="notesList" class="notes-list"></div>
+    <section class="editor-card">
+      <div class="editor-title-row"><input id="noteTitle" placeholder="ناونیشانی تێبینی..." aria-label="Note title"><span id="saveStatus" class="save-status">پاشەکەوت کراوە</span></div>
+      <div class="editor-tabs">
+        <button class="tab active" data-mode="text">▦ نووسین</button>
+        <button class="tab" data-mode="paper">✎ قەڵەم و کاغەز</button>
+      </div>
+      <div id="textEditorWrap"><textarea id="noteBody" placeholder="لێرەدا تێبینییەکانت بنووسە..." spellcheck="false"></textarea></div>
+      <div id="paperTools" class="paper-tools" hidden>
+        <button id="penBtn" class="tool active">✎ قەڵەم</button>
+        <button id="highlightBtn" class="tool">🖍 هایلایت</button>
+        <button id="eraserBtn" class="tool">⌫ پاککەرەوە</button>
+        <label class="tool-label">ڕەنگ <input type="color" id="penColor" value="#183c91"></label>
+        <label class="tool-label">قەڵەوی <input type="range" id="penWidth" min="1" max="24" value="4"></label>
+        <label class="tool-label">ڕەنگی هایلایت <input type="color" id="highlightColor" value="#ffeb3b"></label>
+        <button id="undoBtn" class="tool">↶ پاشگەزبوونەوە</button>
+        <button id="clearCanvasBtn" class="tool danger">پاککردنەوە</button>
+      </div>
+      <section id="mathTemplatePanel" class="math-template-panel">
+        <div class="math-template-heading">➗ Math notebook template</div>
+        <p class="math-template-help">Choose a template to add it to your notes, then fill in the question and solution.</p>
+        <div class="math-template-buttons">
+          <button type="button" data-math-template="problem">📝 Problem & solution</button>
+          <button type="button" data-math-template="steps">＝ Step-by-step solution</button>
+          <button type="button" data-math-template="formula">√ Formula</button>
+          <button type="button" data-math-template="practice">✓ Practice questions</button>
+        </div>
+        <div class="math-panel-label">Math numbers & symbols — tap to insert</div>
+        <div id="mathSymbols" class="math-symbols"></div>
+      </section>
+      <div id="canvasWrap" hidden><canvas id="paperCanvas" aria-label="Handwriting paper"></canvas></div>
+      <div class="editor-footer"><button id="deleteNoteBtn" class="danger-text">سڕینەوەی تێبینی</button><span>StudySpace · local save</span></div>
+    </section>
+  </section>
+</main>
+<div id="toast" role="status" class="toast" hidden></div>
+<script src="app.js"></script>
+</body>
+</html>
