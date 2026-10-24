@@ -1,0 +1,114 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#050716">
+<title>VORTEX — Enter a New Reality</title>
+<style>
+*{box-sizing:border-box}
+:root{--bg:#050716;--panel:#10152d;--blue:#20caff;--purple:#9b38ff;--text:#f5f6ff}
+body{margin:0;background:radial-gradient(ellipse at 50% 25%,#17104a,var(--bg) 65%);color:var(--text);font:16px system-ui,Arial;min-height:100vh}
+header{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:18px 5%;border-bottom:1px solid #393b80;flex-wrap:wrap}
+.logo{font-size:clamp(25px,5vw,40px);font-weight:1000;letter-spacing:4px;color:var(--blue);text-shadow:0 0 22px var(--purple)}
+button{cursor:pointer;color:white;background:#171b3b;border:1px solid #5147ad;border-radius:12px;padding:12px 16px;font-weight:700}
+button:hover{border-color:var(--blue);box-shadow:0 0 18px #523fff}
+nav{display:flex;gap:8px;flex-wrap:wrap;padding:14px 5%;justify-content:center}
+nav button.active,.primary{background:linear-gradient(100deg,#762bff,#087fff);border-color:#7bdcff}
+main{max-width:1100px;margin:auto;padding:20px}
+.hero{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:center;min-height:350px}
+h1{font-size:clamp(35px,7vw,70px);line-height:1;margin:15px 0;background:linear-gradient(90deg,#fff,#20caff,#bd7cff);color:transparent;background-clip:text}
+p{color:#bdc8eb;line-height:1.6}
+.portal{height:260px;width:260px;max-width:75vw;border-radius:50%;margin:auto;display:grid;place-items:center;background:radial-gradient(circle,#050716 35%,transparent 39%),conic-gradient(from 0deg,#19d8ff,#542aff,#ec3dff,#1b74ff,#19d8ff);box-shadow:0 0 35px #572bff,0 0 90px #123bff;animation:spin 9s linear infinite}
+.portal span{font-size:45px;text-shadow:0 0 20px #20caff;animation:spin 9s linear infinite reverse}
+@keyframes spin{to{transform:rotate(360deg)}}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px}
+.card{padding:20px;border:1px solid #343b78;border-radius:17px;background:linear-gradient(145deg,#171a3d,#0b0e22);min-height:145px}
+.card .emoji{font-size:30px}
+.card h3{margin:12px 0 5px}
+.stats{display:flex;gap:10px;flex-wrap:wrap;margin:20px 0}
+.stat{background:#121831;padding:12px 17px;border-radius:12px;border:1px solid #343b78;flex:1;min-width:120px}
+.view{display:none}.view.show{display:block}
+.meter{height:9px;background:#25294b;border-radius:9px;overflow:hidden}
+.meter div{height:100%;width:0;background:linear-gradient(90deg,#21d6ff,#ac39ff);transition:width .3s}
+#target{font-size:70px;text-align:center;cursor:pointer;user-select:none}
+footer{text-align:center;color:#737da8;padding:25px}
+</style>
+</head>
+<body>
+<header>
+<div><div class="logo">◈ VORTEX</div><small>PLAY • EXPLORE • ACHIEVE</small></div>
+<div>👤 PlayerXPad <span id="level">· Level 1</span></div>
+</header>
+<nav id="nav">
+<button class="active" data-view="home">⌂ Home</button>
+<button data-view="games">🎮 Games</button>
+<button data-view="missions">⚑ Missions</button>
+<button data-view="achievements">🏆 Achievements</button>
+<button data-view="settings">⚙ Settings</button>
+</nav>
+<main>
+<section id="home" class="view show">
+<div class="hero">
+<div><p>YOUR NEXT REALITY AWAITS</p><h1>ENTER THE VORTEX</h1><p>Explore strange worlds. Complete challenges. Forge your legend.</p><button class="primary" onclick="openView('games')">▶ START ADVENTURE</button></div>
+<div class="portal"><span>◈</span></div>
+</div>
+<div class="stats">
+<div class="stat">⚡ XP <strong id="xp">0</strong><div class="meter"><div id="bar"></div></div></div>
+<div class="stat">🏆 Level <strong id="level2">1</strong></div>
+<div class="stat">🎯 Missions <strong id="done">0</strong></div>
+</div>
+<div class="grid">
+<div class="card" onclick="openView('games')"><div class="emoji">🎮</div><h3>Mini Games</h3><p>Test your reflexes.</p></div>
+<div class="card" onclick="openView('missions')"><div class="emoji">⚡</div><h3>Daily Missions</h3><p>Earn XP and unlock achievements.</p></div>
+<div class="card" onclick="openView('achievements')"><div class="emoji">💎</div><h3>Rewards</h3><p>Track your milestones.</p></div>
+</div>
+</section>
+<section id="games" class="view">
+<h1>MINI GAMES</h1><p>Play a simple reflex challenge. Every click earns XP.</p>
+<div class="card"><h2>⚡ Portal Tap</h2><p>Tap the energy core as many times as you can.</p><div id="target" onclick="tapCore()">🔮</div><h2>Energy: <span id="score">0</span></h2><button class="primary" onclick="startGame()">Start / Reset Game</button></div>
+</section>
+<section id="missions" class="view">
+<h1>MISSIONS</h1><p>Complete a mission once to claim its XP.</p><div class="grid" id="missionList"></div>
+</section>
+<section id="achievements" class="view">
+<h1>ACHIEVEMENTS</h1><div class="grid" id="achievementList"></div>
+</section>
+<section id="settings" class="view">
+<h1>SETTINGS</h1><div class="card"><h3>Player profile</h3><label>Player name</label><p><input id="playerName" value="PlayerXPad" maxlength="24" style="padding:12px;width:100%;border-radius:10px"></p><button onclick="saveName()">Save name</button><button onclick="exportSave()">Export progress</button><p>Progress is stored in this browser on this device. Export a backup before clearing browser data.</p></div>
+</section>
+</main>
+<footer>VORTEX © Your adventure starts here.</footer>
+<script>
+const missions=[
+{id:"first",name:"First Contact",desc:"Enter the VORTEX.",xp:20},
+{id:"tap",name:"Energy Hunter",desc:"Tap the energy core 10 times.",xp:30},
+{id:"explore",name:"Explorer",desc:"Visit every section.",xp:25}
+];
+let data={xp:0,claimed:[],visited:["home"],name:"PlayerXPad",score:0};
+try{data={...data,...JSON.parse(localStorage.getItem("vortex-save")||"{}")}}catch{}
+function save(){localStorage.setItem("vortex-save",JSON.stringify(data));render()}
+function openView(id){document.querySelectorAll(".view").forEach(v=>v.classList.toggle("show",v.id===id));document.querySelectorAll("nav button").forEach(b=>b.classList.toggle("active",b.dataset.view===id));if(!data.visited.includes(id))data.visited.push(id);save()}
+document.querySelectorAll("nav button").forEach(b=>b.onclick=()=>openView(b.dataset.view));
+function claim(id){if(data.claimed.includes(id))return;let m=missions.find(x=>x.id===id);if(!m)return;data.claimed.push(id);data.xp+=m.xp;save()}
+function render(){
+let level=Math.floor(data.xp/100)+1;
+document.getElementById("xp").textContent=data.xp;
+document.getElementById("level").textContent="· Level "+level;
+document.getElementById("level2").textContent=level;
+document.getElementById("bar").style.width=(data.xp%100)+"%";
+document.getElementById("done").textContent=data.claimed.length;
+document.getElementById("playerName").value=data.name;
+document.getElementById("missionList").innerHTML=missions.map(m=>`<div class="card"><div class="emoji">⚡</div><h3>${m.name}</h3><p>${m.desc}</p><p>Reward: ${m.xp} XP</p><button ${data.claimed.includes(m.id)?"disabled":""} onclick="claim('${m.id}')">${data.claimed.includes(m.id)?"✓ Completed":"Claim mission"}</button></div>`).join("");
+let ach=[["First Steps",data.visited.length>=2],["Energy Hunter",data.score>=10],["Rising Legend",data.xp>=100],["World Traveler",data.visited.length>=5]];
+document.getElementById("achievementList").innerHTML=ach.map(a=>`<div class="card"><div class="emoji">${a[1]?"🏆":"🔒"}</div><h3>${a[0]}</h3><p>${a[1]?"Unlocked!":"Keep playing to unlock this achievement."}</p></div>`).join("");
+}
+function startGame(){data.score=0;document.getElementById("score").textContent=0;save()}
+function tapCore(){data.score++;document.getElementById("score").textContent=data.score;if(data.score===10&&!data.claimed.includes("tap"))claim("tap");else save()}
+function saveName(){data.name=document.getElementById("playerName").value.trim()||"PlayerXPad";save();alert("Player name saved!")}
+function exportSave(){let a=document.createElement("a");a.href=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:"application/json"}));a.download="vortex-progress.json";a.click();URL.revokeObjectURL(a.href)}
+render();
+</script>
+</body>
+</html>
